@@ -28,12 +28,16 @@ export default async function EntryDetailPage({
   const title = anime?.title_en ?? anime?.title_romaji ?? '—'
 
   return (
-    <main className="p-4 space-y-4">
+    <main className="p-4 space-y-4 pb-24">
       <div className="flex gap-3 items-start">
         {anime?.cover_url && (
-          <img src={anime.cover_url} alt="" className="w-20 h-28 object-cover rounded" />
+          <img
+            src={anime.cover_url}
+            alt=""
+            className="w-20 h-28 object-cover rounded-xl ring-1 ring-zinc-800 shrink-0"
+          />
         )}
-        <h1 className="text-xl font-bold flex-1">{title}</h1>
+        <h1 className="text-xl font-bold text-zinc-100 flex-1">{title}</h1>
       </div>
 
       <EntryForm

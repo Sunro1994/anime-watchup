@@ -18,19 +18,22 @@ export function EntryCard(p: Props) {
     : `${p.currentEpisode}화`
 
   return (
-    <Link
-      href={`/entries/${p.id}`}
-      className="flex gap-3 items-center border rounded p-2 hover:bg-gray-50"
-    >
-      {p.coverUrl && (
-        <img src={p.coverUrl} alt="" className="w-12 h-16 object-cover rounded shrink-0" />
-      )}
-      <div className="flex-1 min-w-0">
-        <p className="font-medium truncate">{p.title}</p>
-        <div className="flex items-center gap-2 mt-1">
-          <StatusBadge status={p.status} />
-          <span className="text-xs text-gray-600">{progress}</span>
-          {p.rating != null && <span className="text-xs">★ {p.rating}</span>}
+    <Link href={`/entries/${p.id}`} className="block group transition-all duration-200">
+      <div className="flex gap-3 items-center bg-zinc-900/60 backdrop-blur-sm ring-1 ring-zinc-800 hover:ring-purple-500/40 hover:bg-zinc-900/80 rounded-xl p-3 transition-all">
+        {p.coverUrl && (
+          <img
+            src={p.coverUrl}
+            alt=""
+            className="w-12 h-16 object-cover rounded-lg ring-1 ring-zinc-800 shrink-0 group-hover:scale-[1.03] transition-transform"
+          />
+        )}
+        <div className="flex-1 min-w-0">
+          <p className="font-medium truncate text-zinc-100">{p.title}</p>
+          <div className="flex items-center gap-2 mt-1">
+            <StatusBadge status={p.status} />
+            <span className="text-xs text-zinc-400">{progress}</span>
+            {p.rating != null && <span className="text-xs text-amber-300">★ {p.rating}</span>}
+          </div>
         </div>
       </div>
     </Link>

@@ -10,7 +10,11 @@ export function RatingPicker({ value, onChange }: Props) {
           key={n}
           type="button"
           onClick={() => onChange(value === n ? null : n)}
-          className={`w-8 h-8 border rounded text-sm ${value === n ? 'bg-black text-white' : ''}`}
+          className={`w-9 h-9 rounded-lg text-sm active:scale-95 transition-all ${
+            value === n
+              ? 'bg-gradient-to-br from-purple-500 to-pink-500 ring-1 ring-purple-400 text-white'
+              : 'bg-zinc-900/80 ring-1 ring-zinc-800 text-zinc-400 hover:ring-purple-500/40 hover:text-zinc-200'
+          }`}
         >
           {n}
         </button>

@@ -1,12 +1,14 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useTransition } from 'react'
+import { Loader2 } from 'lucide-react'
 import { sendMagicLink } from './actions'
 import { createClient } from '@/lib/supabase/browser'
 
 export default function LoginPage() {
   const [status, setStatus] = useState<'idle' | 'sent' | 'error' | 'verifying'>('idle')
   const [message, setMessage] = useState('')
+  const [pending, startTransition] = useTransition()
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -32,36 +34,58 @@ export default function LoginPage() {
     })
   }, [])
 
-  async function action(formData: FormData) {
-    const r = await sendMagicLink(formData)
-    if (r?.error) {
-      setStatus('error')
-      setMessage(r.error)
-    } else {
-      setStatus('sent')
-      setMessage('메일함을 확인해주세요.')
-    }
+  function action(formData: FormData) {
+    startTransition(async () => {
+      const r = await sendMagicLink(formData)
+      if (r?.error) {
+        setStatus('error')
+        setMessage(r.error)
+      } else {
+        setStatus('sent')
+        setMessage('메일함을 확인해주세요.')
+      }
+    })
   }
 
   return (
     <main className="min-h-dvh flex items-center justify-center p-6">
-      <form action={action} className="w-full max-w-sm space-y-4">
-        <h1 className="text-2xl font-bold">anime-watchup</h1>
-        <p className="text-sm text-gray-600">이메일로 로그인 링크를 받으세요.</p>
+      <form action={action} className="w-full max-w-sm space-y-5">
+        <div className="space-y-1">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            anime-watchup
+          </h1>
+          <p className="text-sm text-zinc-400">이메일로 로그인 링크를 받으세요.</p>
+        </div>
+
         <input
           name="email"
           type="email"
           required
           placeholder="you@example.com"
-          className="w-full border rounded p-2"
+          className="w-full bg-zinc-900/80 ring-1 ring-zinc-800 focus:ring-2 focus:ring-purple-500/60 focus:outline-none rounded-lg p-3 text-zinc-100 placeholder:text-zinc-500 transition-all"
         />
-        <button type="submit" className="w-full bg-black text-white rounded p-2">
-          매직 링크 받기
+
+        <button
+          type="submit"
+          disabled={pending}
+          className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-lg shadow-purple-500/20 rounded-lg p-3 font-medium transition-all active:scale-[0.97] disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          {pending ? (
+            <span className="flex items-center justify-center gap-2">
+              <Loader2 className="w-4 h-4 animate-spin" />
+              처리 중
+            </span>
+          ) : (
+            '매직 링크 받기'
+          )}
         </button>
+
         {status !== 'idle' && (
           <p
             className={
-              status === 'sent' || status === 'verifying' ? 'text-green-700' : 'text-red-700'
+              status === 'sent' || status === 'verifying'
+                ? 'text-emerald-400 text-sm'
+                : 'text-rose-400 text-sm'
             }
           >
             {message}

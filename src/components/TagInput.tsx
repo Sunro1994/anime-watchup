@@ -27,11 +27,20 @@ export function TagInput({ value, onChange }: Props) {
   }
 
   return (
-    <div className="flex flex-wrap gap-1 border rounded p-2">
+    <div className="flex flex-wrap gap-1.5 bg-zinc-900/80 ring-1 ring-zinc-800 focus-within:ring-purple-500/60 rounded-lg p-2 transition-all">
       {value.map((t) => (
-        <span key={t} className="bg-gray-100 rounded px-2 py-0.5 text-xs flex items-center gap-1">
+        <span
+          key={t}
+          className="bg-purple-500/15 ring-1 ring-purple-500/30 text-purple-200 rounded-full px-2.5 py-0.5 text-xs flex items-center gap-1"
+        >
           {t}
-          <button type="button" onClick={() => onChange(value.filter((x) => x !== t))}>×</button>
+          <button
+            type="button"
+            onClick={() => onChange(value.filter((x) => x !== t))}
+            className="text-purple-300 hover:text-pink-300 transition-colors"
+          >
+            ×
+          </button>
         </span>
       ))}
       <input
@@ -40,7 +49,7 @@ export function TagInput({ value, onChange }: Props) {
         onKeyDown={onKey}
         onBlur={commit}
         placeholder="태그 입력 후 Enter"
-        className="flex-1 min-w-[120px] outline-none text-sm"
+        className="flex-1 min-w-[120px] outline-none text-sm bg-transparent text-zinc-100 placeholder:text-zinc-500"
       />
     </div>
   )
