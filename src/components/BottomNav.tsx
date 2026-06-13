@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 const TABS = [
   { href: '/list', label: '내 목록' },
   { href: '/search', label: '검색' },
+  { href: '/me', label: '내 정보' },
 ]
 
 export function BottomNav() {
